@@ -37,6 +37,7 @@
     "express": "^4.18.1",
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.21.4"
+    "sequelize": "^6.21.4",
+    "dotenv": "^16.0.2"
   }
 }
