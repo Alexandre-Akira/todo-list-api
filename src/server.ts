@@ -1,3 +1,4 @@
 import app from './app'
+import { PORT } from './config/constants'
 
-app.listen(3333)
+app.listen(PORT, () => console.log(`Server is listening on PORT:${PORT}`))
