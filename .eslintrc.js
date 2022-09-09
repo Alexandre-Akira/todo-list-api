@@ -11,5 +11,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
-  rules: {}
+  rules: {
+    'space-before-function-paren': ['error', 'never']
+  }
 }

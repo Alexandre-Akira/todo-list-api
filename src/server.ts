@@ -1,3 +1,4 @@
-const teste = 'Funcionou'
+import app from './app'
+import { PORT } from './config/constants'
 
-console.log(teste)
+app.listen(PORT, () => console.log(`Server is listening on PORT:${PORT}`))
