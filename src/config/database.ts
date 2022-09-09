@@ -1,9 +1,9 @@
 import { Options } from 'sequelize/types'
-import { DB_NAME, DB_PASSWORD, DB_USER } from './constants'
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } from './constants'
 
 export const dbConfig: Options = {
   dialect: 'postgres',
-  host: 'localhost',
+  host: DB_HOST,
   username: DB_USER,
   password: DB_PASSWORD,
   database: DB_NAME,
