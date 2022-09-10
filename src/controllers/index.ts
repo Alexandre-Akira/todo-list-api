@@ -1,6 +1,2 @@
-import UserController from './userController'
-import TodoController from './todoController'
-
-const allControllers = [UserController, TodoController]
-
-export default allControllers
+export { default as UserController } from './userController'
+export { default as TodoController } from './todoController'
