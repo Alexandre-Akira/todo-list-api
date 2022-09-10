@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import { Sequelize } from 'sequelize'
 import { dbConfig } from './config/database'
-import routes from './routes'
+import allRoutes from './routes'
 
 class App {
   public express: express.Application
@@ -20,7 +20,7 @@ class App {
   }
 
   private database() {
-    const connect = async(attempt = 1) => {
+    const connect = async (attempt = 1) => {
       const connection = new Sequelize(dbConfig)
       try {
         await connection.authenticate()
@@ -38,7 +38,7 @@ class App {
   }
 
   private routes() {
-    this.express.use(routes)
+    this.express.use(allRoutes)
   }
 }
 
