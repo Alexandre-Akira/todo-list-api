@@ -1,4 +1,4 @@
 import app from './app'
-import { PORT } from './config/constants'
+const { PORT } = require('./database/constants.ts')
 
 app.listen(PORT, () => console.log(`Server is listening on PORT:${PORT}`))

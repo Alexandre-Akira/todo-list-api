@@ -2,7 +2,7 @@ import Express from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-import { SECRET_KEY } from '../config/constants'
+const SECRET_KEY = require('../database/constants.ts')
 
 // Verificar os nomes dos metódos dos models quando estiver pronto
 import {
