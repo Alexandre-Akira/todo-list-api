@@ -19,6 +19,7 @@ module.exports = {
         named: 'never',
         asyncArrow: 'always'
       }
-    ]
+    ],
+    '@typescript-eslint/no-var-requires': 'allow'
   }
 }

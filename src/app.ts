@@ -1,8 +1,8 @@
 import express from 'express'
 import cors from 'cors'
-import { Sequelize } from 'sequelize'
-import { dbConfig } from './config/database'
-import allRoutes from './routes'
+const dbConfig = require('./database/config.js')
+import { connect } from './database/utils'
+// import allRoutes from './routes'
 
 class App {
   public express: express.Application
@@ -11,7 +11,7 @@ class App {
     this.express = express()
     this.middlewares()
     this.database()
-    this.routes()
+    // this.routes()
   }
 
   private middlewares() {
@@ -20,25 +20,11 @@ class App {
   }
 
   private database() {
-    const connect = async (attempt = 1) => {
-      const connection = new Sequelize(dbConfig)
-      try {
-        await connection.authenticate()
-        console.log(
-          'Connection with database has been established successfully.'
-        )
-      } catch (error) {
-        console.error('Unable to connect to the database:', error)
-        console.log(`Trying to reconnect... Attempt: ${attempt}`)
-        const delayBetweenAttempts = attempt ** 2 * 1000
-        setTimeout(() => connect(attempt + 1), delayBetweenAttempts)
-      }
-    }
-    connect()
+    connect(dbConfig)
   }
 
   private routes() {
-    this.express.use(allRoutes)
+    // this.express.use(allRoutes)
   }
 }
 
