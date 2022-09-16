@@ -10,12 +10,15 @@ import {
   getUserByEmail,
   getUserById,
   updateUserById,
-  deleteUserById
-} from '../models/user'
+  deleteUserById,
+  UserModel  
+} from '../models/UserModel'
+import { password } from 'pg/lib/defaults'
 
 // Verificar os nomes dos DTOs das views quando estiver pronto
-import UserDTO from '../views/userDTO'
-import TokenDTO from '../views/tokenDTO'
+// import UserDTO from '../views/userDTO'
+// import TokenDTO from '../views/tokenDTO'
+
 
 class UserController {
   static async createUser(req: Express.Request, res: Express.Response) {
@@ -28,13 +31,13 @@ class UserController {
     const salt = await bcrypt.genSalt(12)
     const passwordHash = await bcrypt.hash(password, salt)
 
-    const newUser = await createNewUser({ name, email, passwordHash })
+    const newUser = await UserModel.createNewUser(name, email, passwordHash)
 
-    if (newUser.userAlreadyRegistered) {
-      return res.status(409).send('E-mail already registred')
-    }
+    // if (newUser.userAlreadyRegistered) {
+    //   return res.status(409).send('E-mail already registred')
+    // }
 
-    return res.status(201).json(new UserDTO(newUser))
+    return res.status(201).json(newUser)
   }
 
   static async login(req: Express.Request, res: Express.Response) {

@@ -1,16 +1,16 @@
 import Express from 'express'
 
 // Verificar os nomes dos metódos dos models quando estiver pronto
-import {
-  createNewTodo,
-  getTodoById,
-  getAllTodos,
-  updateTodoById,
-  deleteTodoById
-} from '../models/todo'
+// import {
+//   createNewTodo,
+//   getTodoById,
+//   getAllTodos,
+//   updateTodoById,
+//   deleteTodoById
+// } from '../models/todo'
 
 // Verificar os nomes dos DTOs das views quando estiver pronto
-import TodoDTO from '../views/todoDTO'
+// import TodoDTO from '../views/todoDTO'
 
 class TodoController {
   static async createTodo(req: Express.Request, res: Express.Response) {

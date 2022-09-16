@@ -3,6 +3,7 @@ import cors from 'cors'
 const dbConfig = require('./database/config.js')
 import { connect } from './database/utils'
 // import allRoutes from './routes'
+import userRoutes from './routes/userRoutes'
 
 class App {
   public express: express.Application
@@ -11,7 +12,7 @@ class App {
     this.express = express()
     this.middlewares()
     this.database()
-    // this.routes()
+    this.routes()
   }
 
   private middlewares() {
@@ -24,7 +25,7 @@ class App {
   }
 
   private routes() {
-    // this.express.use(allRoutes)
+    this.express.use(userRoutes)
   }
 }
 
