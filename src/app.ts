@@ -1,7 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 const dbConfig = require('./database/config.js')
-import { connect } from './database/utils'
+import { Sequelize } from 'sequelize'
+import { connect } from './database'
 // import allRoutes from './routes'
 import userRoutes from './routes/userRoutes'
 
@@ -21,7 +22,8 @@ class App {
   }
 
   private database() {
-    connect(dbConfig)
+    const sequelize = new Sequelize(dbConfig)
+    connect(sequelize, dbConfig)
   }
 
   private routes() {
