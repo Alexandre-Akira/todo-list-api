@@ -7,7 +7,7 @@ class User extends Model {
   declare email: string
 
   static initializeModel(connection: Sequelize) {
-    this.init(
+    return this.init(
       {
         id: {
           type: DataTypes.UUID,

@@ -24,7 +24,7 @@ class UserController {
     // TODO: if (isCreated) return res.status(201).json(new UserDTO(newUser))
     if (isCreated) return res.status(201).json(newUser)
 
-    return res.status(409).send('E-mail already registred')
+    return res.status(409).send('E-mail already registered')
   }
 
   static async login(req: Express.Request, res: Express.Response) {
@@ -96,16 +96,22 @@ class UserController {
       return res.status(400).send('Missing data')
     }
 
+    const userWithThisEmail = await User.findOne({ where: { email } })
+
+    if (userWithThisEmail) {
+      return res.status(409).send('E-mail already registered')
+    }
+
     const salt = await bcrypt.genSalt(12)
     const passwordHash = await bcrypt.hash(password, salt)
 
     const updatedUser = await User.update(
-      { name, email, passwordHash },
-      { where: { id } }
+      { name, email, password: passwordHash },
+      { where: { id }, returning: true }
     )
 
     // return res.status(200).json(new UserDTO(updatedUser))
-    return res.status(200).json(updatedUser)
+    return res.status(200).json(updatedUser[1][0])
   }
 
   static async deleteUser(req: Express.Request, res: Express.Response) {
