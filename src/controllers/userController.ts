@@ -101,12 +101,12 @@ class UserController {
     const passwordHash = await bcrypt.hash(password, salt)
 
     const updatedUser = await UserModel.user.update(
-      { name, email, passwordHash },
-      { where: { id } }
+      { name, email, password: passwordHash },
+      { where: { id }, returning: true }
     )
 
     // return res.status(200).json(new UserDTO(updatedUser))
-    return res.status(200).json(updatedUser)
+    return res.status(200).json(updatedUser[1][0])
   }
 
   static async deleteUser(req: Express.Request, res: Express.Response) {
