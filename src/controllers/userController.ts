@@ -1,11 +1,9 @@
 import Express from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-
 const SECRET_KEY = require('../database/constants.ts')
-
-import UserModel from '../models/userModel'
 import { isUUID } from '../utils'
+import User from '../models/userModel'
 
 class UserController {
   static async createUser(req: Express.Request, res: Express.Response) {
@@ -18,10 +16,11 @@ class UserController {
     const salt = await bcrypt.genSalt(12)
     const passwordHash = await bcrypt.hash(password, salt)
 
-    const [newUser, isCreated] = await UserModel.user.findOrCreate({
+    const [newUser, isCreated] = await User.findOrCreate({
       where: { email },
       defaults: { name, email, password: passwordHash }
     })
+
     // TODO: if (isCreated) return res.status(201).json(new UserDTO(newUser))
     if (isCreated) return res.status(201).json(newUser)
 
@@ -35,7 +34,7 @@ class UserController {
       return res.status(400).send('Missing data')
     }
 
-    const user = await UserModel.user.findOne({ where: { email } })
+    const user = await User.findOne({ where: { email } })
 
     if (!user) {
       return res.status(403).send('Unauthorized')
@@ -64,7 +63,7 @@ class UserController {
 
     if (!isUUID(id)) return res.status(422).send('Invalid ID')
 
-    const user = await UserModel.user.findOne({ where: { id } })
+    const user = await User.findOne({ where: { id } })
 
     if (!user) {
       return res.status(404).send('User not found')
@@ -85,7 +84,7 @@ class UserController {
       return res.status(422).send('Invalid ID')
     }
 
-    const user = await UserModel.user.findOne({ where: { id } })
+    const user = await User.findOne({ where: { id } })
 
     if (!user) {
       return res.status(404).send('User not found')
@@ -100,7 +99,7 @@ class UserController {
     const salt = await bcrypt.genSalt(12)
     const passwordHash = await bcrypt.hash(password, salt)
 
-    const updatedUser = await UserModel.user.update(
+    const updatedUser = await User.update(
       { name, email, passwordHash },
       { where: { id } }
     )
@@ -120,7 +119,7 @@ class UserController {
       return res.status(422).send('Invalid ID')
     }
 
-    await UserModel.user.destroy({ where: { id } })
+    await User.destroy({ where: { id } })
 
     return res.status(204).send()
   }

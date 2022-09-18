@@ -2,9 +2,9 @@ import express from 'express'
 import cors from 'cors'
 const dbConfig = require('./database/config.js')
 import { Sequelize } from 'sequelize'
-import { connect } from './database'
-// import allRoutes from './routes'
+// import { connect } from './database'
 import userRoutes from './routes/userRoutes'
+import User from './models/userModel'
 
 class App {
   public express: express.Application
@@ -23,7 +23,8 @@ class App {
 
   private database() {
     const sequelize = new Sequelize(dbConfig)
-    connect(sequelize, dbConfig)
+    // connect(sequelize)
+    User.initializeModel(sequelize)
   }
 
   private routes() {
