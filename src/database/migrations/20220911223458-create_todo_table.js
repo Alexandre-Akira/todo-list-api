@@ -4,7 +4,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('todo', {
       id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-      user_id: {
+      userId: {
         type: Sequelize.UUID,
         references: {
           model: 'users',
@@ -18,12 +18,12 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      status: {
+      isDone: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
-      created_at: Sequelize.DATE,
-      updated_at: Sequelize.DATE
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
     })
   },
 

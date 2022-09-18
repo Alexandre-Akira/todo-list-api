@@ -1,4 +1,5 @@
 import Express from 'express'
+import Todo from '../models/todoModel'
 
 // Verificar os nomes dos metódos dos models quando estiver pronto
 // import {
@@ -14,15 +15,16 @@ import Express from 'express'
 
 class TodoController {
   static async createTodo(req: Express.Request, res: Express.Response) {
-    const { description, status } = req.body
+    const { userId, description, isDone } = req.body
 
-    if (!description || !status) {
+    if (!userId || !description || isDone === undefined) {
       return res.status(400).send('Missing data')
     }
 
-    const newTodo = await createNewTodo({ description, status })
+    const newTodo = await Todo.create({ userId, description, isDone })
 
-    return res.status(201).json(new TodoDTO(newTodo))
+    // return res.status(201).json(new TodoDTO(newTodo))
+    return res.status(201).json(newTodo)
   }
 
   static async getTodos(req: Express.Request, res: Express.Response) {
