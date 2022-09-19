@@ -1,8 +1,11 @@
 import express from 'express'
 import cors from 'cors'
 const dbConfig = require('./database/config.js')
-import { connect } from './database/utils'
-// import allRoutes from './routes'
+import { Sequelize } from 'sequelize'
+// import { connect } from './database'
+import User from './models/userModel'
+import Todo from './models/todoModel'
+import allRoutes from './routes'
 
 class App {
   public express: express.Application
@@ -11,7 +14,7 @@ class App {
     this.express = express()
     this.middlewares()
     this.database()
-    // this.routes()
+    this.routes()
   }
 
   private middlewares() {
@@ -20,11 +23,16 @@ class App {
   }
 
   private database() {
-    connect(dbConfig)
+    const sequelize = new Sequelize(dbConfig)
+    // connect(sequelize)
+    User.initializeModel(sequelize).hasMany(Todo.initializeModel(sequelize), {
+      foreignKey: 'UserId'
+    })
+    Todo.initializeModel(sequelize).belongsTo(User.initializeModel(sequelize))
   }
 
   private routes() {
-    // this.express.use(allRoutes)
+    this.express.use(allRoutes)
   }
 }
 
