@@ -1,9 +1,12 @@
 import Express from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-const SECRET_KEY = require('../database/constants.ts')
-import { isUUID } from '../utils'
+
 import User from '../models/userModel'
+
+import { isUUID } from '../utils'
+
+const SECRET_KEY = require('../database/constants.ts')
 
 class UserController {
   static async createUser(req: Express.Request, res: Express.Response) {
@@ -50,18 +53,16 @@ class UserController {
       expiresIn: '1h'
     })
 
-    // TODO: return res.status(201).json(new TokenDTO(jwtToken))
+    // TODO: return res.status(201).json(new AuthenticationDTO(jwtToken, user))
     return res.status(201).json(jwtToken)
   }
 
   static async getUser(req: Express.Request, res: Express.Response) {
     const { id } = req.params
 
-    if (!id) {
-      return res.status(400).send('Missing data')
+    if (!isUUID(id)) {
+      return res.status(422).send('Invalid ID')
     }
-
-    if (!isUUID(id)) return res.status(422).send('Invalid ID')
 
     const user = await User.findOne({ where: { id } })
 
@@ -75,10 +76,6 @@ class UserController {
 
   static async updateUser(req: Express.Request, res: Express.Response) {
     const { id } = req.params
-
-    if (!id) {
-      return res.status(400).send('Missing data')
-    }
 
     if (!isUUID(id)) {
       return res.status(422).send('Invalid ID')
@@ -116,10 +113,6 @@ class UserController {
 
   static async deleteUser(req: Express.Request, res: Express.Response) {
     const { id } = req.params
-
-    if (!id) {
-      return res.status(400).send('Missing data')
-    }
 
     if (!isUUID(id)) {
       return res.status(422).send('Invalid ID')
