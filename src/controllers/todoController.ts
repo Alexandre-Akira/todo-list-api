@@ -1,10 +1,10 @@
 import Express from 'express'
 
-import Todo from '../models/todoModel'
+import { Todo } from '../models'
+import { TodoDTO } from '../views'
 
 import { isUUID } from '../utils'
 
-import { TodoDTO } from '../views'
 
 class TodoController {
   static async createTodo(req: Express.Request, res: Express.Response) {

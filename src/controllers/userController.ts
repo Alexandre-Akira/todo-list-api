@@ -2,10 +2,10 @@ import Express from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-import User from '../models/userModel'
+import { User } from '../models'
+import { AuthenticationDTO, UserDTO } from '../views'
 
 import { isUUID } from '../utils'
-import { AuthenticationDTO, UserDTO } from '../views'
 
 const SECRET_KEY = require('../database/constants.ts')
 
