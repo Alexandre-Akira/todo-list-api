@@ -26,7 +26,7 @@ class App {
     const sequelize = new Sequelize(dbConfig)
     // connect(sequelize)
     User.initializeModel(sequelize).hasMany(Todo.initializeModel(sequelize), {
-      foreignKey: 'userId'
+      foreignKey: 'UserId'
     })
     Todo.initializeModel(sequelize).belongsTo(User.initializeModel(sequelize))
   }

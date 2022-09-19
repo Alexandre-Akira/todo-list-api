@@ -2,9 +2,9 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('todo', {
+    await queryInterface.createTable('todos', {
       id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-      userId: {
+      UserId: {
         type: Sequelize.UUID,
         references: {
           model: 'users',
@@ -28,6 +28,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable('todo')
+    await queryInterface.dropTable('todos')
   }
 }

@@ -8,7 +8,7 @@ class Todo extends Model {
   static initializeModel(connection: Sequelize) {
     return this.init(
       {
-        userId: {
+        UserId: {
           type: DataTypes.UUID,
           references: {
             model: 'users',
