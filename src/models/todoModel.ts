@@ -1,7 +1,7 @@
 import { Model, DataTypes, Sequelize } from 'sequelize'
 
 class Todo extends Model {
-  declare userId: string
+  declare UserId: string
   declare description: string
   declare isDone: boolean
 
