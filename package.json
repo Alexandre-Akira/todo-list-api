@@ -1,8 +1,8 @@
 {
   "name": "todo-list-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "ToDo List API",
+  "main": "server.ts",
   "scripts": {
     "dev": "nodemon src/server.ts",
     "build": "sucrase ./src -d ./dist --transforms typescript,imports"
@@ -12,8 +12,8 @@
     "url": "git+https://github.com/Alexandre-Akira/todo-list-api.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "AlexandreAkira Enjiu, Leandro Vendemiatto Antunes, Guilherme Pereira de Oliveira, Tiago Castelfranchi",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Alexandre-Akira/todo-list-api/issues"
   },

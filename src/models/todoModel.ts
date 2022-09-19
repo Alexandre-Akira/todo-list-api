@@ -26,6 +26,4 @@ class Todo extends Model {
   }
 }
 
-// Todo.associate(User, { foreignKey: 'user_id' })
-
 export default Todo

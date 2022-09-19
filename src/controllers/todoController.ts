@@ -1,6 +1,7 @@
 import Express from 'express'
 
-import Todo from '../models/todoModel'
+import { Todo } from '../models'
+import { TodoDTO } from '../views'
 
 import { isUUID } from '../utils'
 
@@ -19,9 +20,8 @@ class TodoController {
 
     try {
       const newTodo = await Todo.create({ UserId, description, isDone })
-      return res.status(201).json(newTodo)
-      // return res.status(201).json(new TodoDTO(newTodo))
-    } catch(err) {
+      return res.status(201).json(new TodoDTO(newTodo))
+    } catch (err) {
       return res.status(422).send('Invalid ID')
     }
   }
@@ -43,8 +43,7 @@ class TodoController {
       if (!todo) {
         return res.status(404).send('Todo not found')
       }
-      // return res.status(200).json(new TodoDTO(todo))
-      return res.status(200).json(todo)
+      return res.status(200).json(new TodoDTO(todo))
     }
 
     const allTodos = await Todo.findAll({ where: { UserId } })
@@ -53,7 +52,10 @@ class TodoController {
       return res.status(422).send('Invalid ID')
     }
 
-    // return res.status(200).json(new TodoDTO(allTodos))
+    allTodos.map((todo) => {
+      return new TodoDTO(todo)
+    })
+
     return res.status(200).json(allTodos)
   }
 
@@ -61,9 +63,9 @@ class TodoController {
     const { UserId } = req.body
     const { id } = req.params
 
-     if (!isUUID(UserId)) {
-       return res.status(422).send('Invalid ID')
-     }
+    if (!isUUID(UserId)) {
+      return res.status(422).send('Invalid ID')
+    }
 
     const todo = await Todo.findOne({ where: { UserId, id } })
 
@@ -82,8 +84,7 @@ class TodoController {
       { where: { UserId, id }, returning: true }
     )
 
-    // return res.status(200).json(new TodoDTO(updatedTodo))
-    return res.status(200).json(updatedTodo[1][0])
+    return res.status(200).json(new TodoDTO(updatedTodo[1][0]))
   }
 
   static async deleteTodo(req: Express.Request, res: Express.Response) {

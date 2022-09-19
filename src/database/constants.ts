@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-// APP constants
+// APP Constants
 const PORT = process.env.PORT
 
 // DB Constants
@@ -11,7 +11,7 @@ const DB = {
   PASSWORD: process.env.DB_PASSWORD
 }
 
-// JWT
+// JWT Constants
 const SECRET_KEY = process.env.SECRET_KEY
 
 module.exports = { DB, PORT, SECRET_KEY }

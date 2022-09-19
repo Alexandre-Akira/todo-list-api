@@ -2,7 +2,8 @@ import Express from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-import User from '../models/userModel'
+import { User } from '../models'
+import { AuthenticationDTO, UserDTO } from '../views'
 
 import { isUUID } from '../utils'
 
@@ -24,8 +25,7 @@ class UserController {
       defaults: { name, email, password: passwordHash }
     })
 
-    // TODO: if (isCreated) return res.status(201).json(new UserDTO(newUser))
-    if (isCreated) return res.status(201).json(newUser)
+    if (isCreated) return res.status(201).json(new UserDTO(newUser))
 
     return res.status(409).send('E-mail already registered')
   }
@@ -53,8 +53,7 @@ class UserController {
       expiresIn: '1h'
     })
 
-    // TODO: return res.status(201).json(new AuthenticationDTO(jwtToken, user))
-    return res.status(201).json(jwtToken)
+    return res.status(201).json(new AuthenticationDTO(jwtToken, user))
   }
 
   static async getUser(req: Express.Request, res: Express.Response) {
@@ -70,8 +69,7 @@ class UserController {
       return res.status(404).send('User not found')
     }
 
-    // return res.status(200).json(new UserDTO(user))
-    return res.status(200).json(user)
+    return res.status(200).json(new UserDTO(user))
   }
 
   static async updateUser(req: Express.Request, res: Express.Response) {
@@ -107,8 +105,7 @@ class UserController {
       { where: { id }, returning: true }
     )
 
-    // return res.status(200).json(new UserDTO(updatedUser))
-    return res.status(200).json(updatedUser[1][0])
+    return res.status(200).json(new UserDTO(updatedUser[1][0]))
   }
 
   static async deleteUser(req: Express.Request, res: Express.Response) {
