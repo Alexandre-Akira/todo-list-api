@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": "AlexandreAkira Enjiu, Leandro Vendemiatto Antunes, Guilherme Pereira de Oliveira, Tiago Castelfranchi",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Alexandre-Akira/todo-list-api/issues"
   },
