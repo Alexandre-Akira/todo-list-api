@@ -9,7 +9,7 @@ const dbConfig = {
   database: DB.NAME,
   define: {
     timestamps: true, // gera o campo createdAt e updatedAt que contem data e hora
-    underscored: true // define o nome das tabelas e nome das colunas como snake case
+    underscored: false // define o nome das tabelas e nome das colunas como snake case
   }
 }
 
