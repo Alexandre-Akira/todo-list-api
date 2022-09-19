@@ -12,7 +12,7 @@ const authenticationMiddleware = (
 
   if (token) {
     try {
-      jwt.verify(token, SECRET_KEY)
+      jwt.verify(token, SECRET_KEY.toString())
     } catch (err) {
       res.status(401).send('Unauthorized')
       return
