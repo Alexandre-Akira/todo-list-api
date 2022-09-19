@@ -1,80 +1,100 @@
 import Express from 'express'
+
 import Todo from '../models/todoModel'
 
-// Verificar os nomes dos metódos dos models quando estiver pronto
-// import {
-//   createNewTodo,
-//   getTodoById,
-//   getAllTodos,
-//   updateTodoById,
-//   deleteTodoById
-// } from '../models/todo'
+import { isUUID } from '../utils'
 
-// Verificar os nomes dos DTOs das views quando estiver pronto
-// import TodoDTO from '../views/todoDTO'
 
 class TodoController {
   static async createTodo(req: Express.Request, res: Express.Response) {
-    const { userId, description, isDone } = req.body
+    const { UserId, description, isDone } = req.body
 
-    if (!userId || !description || isDone === undefined) {
+    if (!UserId || !description || isDone === undefined) {
       return res.status(400).send('Missing data')
     }
 
-    const newTodo = await Todo.create({ userId, description, isDone })
+    if (!isUUID(UserId)) {
+      return res.status(422).send('Invalid ID')
+    }
 
-    // return res.status(201).json(new TodoDTO(newTodo))
-    return res.status(201).json(newTodo)
+    try {
+      const newTodo = await Todo.create({ UserId, description, isDone })
+      return res.status(201).json(newTodo)
+      // return res.status(201).json(new TodoDTO(newTodo))
+    } catch(err) {
+      return res.status(422).send('Invalid ID')
+    }
   }
 
   static async getTodos(req: Express.Request, res: Express.Response) {
+    const { UserId } = req.body
     const { id } = req.params
 
-    if (id) {
-      const todo = await getTodoById(id)
-      if (!todo) {
-        return res.status(404).send('Todo not found')
-      }
-      return res.status(200).json(new TodoDTO(todo))
-    }
-
-    const allTodos = await getAllTodos()
-
-    return res.status(200).json(new TodoDTO(allTodos))
-  }
-
-  static async updateTodo(req: Express.Request, res: Express.Response) {
-    const { id } = req.params
-
-    if (!id) {
+    if (!UserId) {
       return res.status(400).send('Missing data')
     }
 
-    const todo = await getTodoById(id)
+    if (!isUUID(UserId)) {
+      return res.status(422).send('Invalid ID')
+    }
+
+    if (id) {
+      const todo = await Todo.findOne({ where: { UserId, id } })
+      if (!todo) {
+        return res.status(404).send('Todo not found')
+      }
+      // return res.status(200).json(new TodoDTO(todo))
+      return res.status(200).json(todo)
+    }
+
+    const allTodos = await Todo.findAll({ where: { UserId } })
+
+    if (allTodos.length === 0) {
+      return res.status(422).send('Invalid ID')
+    }
+
+    // return res.status(200).json(new TodoDTO(allTodos))
+    return res.status(200).json(allTodos)
+  }
+
+  static async updateTodo(req: Express.Request, res: Express.Response) {
+    const { UserId } = req.body
+    const { id } = req.params
+
+     if (!isUUID(UserId)) {
+       return res.status(422).send('Invalid ID')
+     }
+
+    const todo = await Todo.findOne({ where: { UserId, id } })
 
     if (!todo) {
       return res.status(404).send('Todo not found')
     }
 
-    const { description, status } = req.body
+    const { description, isDone } = req.body
 
-    if (!description || !status) {
+    if (!description || isDone === undefined) {
       return res.status(400).send('Missing data')
     }
 
-    const updatedTodo = await updateTodoById({ description, status })
+    const updatedTodo = await Todo.update(
+      { description, isDone },
+      { where: { UserId, id }, returning: true }
+    )
 
-    return res.status(200).json(new TodoDTO(updatedTodo))
+    // return res.status(200).json(new TodoDTO(updatedTodo))
+    return res.status(200).json(updatedTodo[1][0])
   }
 
   static async deleteTodo(req: Express.Request, res: Express.Response) {
+    const { UserId } = req.body
     const { id } = req.params
 
-    if (!id) {
-      return res.status(400).send('Missing data')
+    if (!isUUID(UserId)) {
+      return res.status(422).send('Invalid ID')
     }
 
-    await deleteTodoById(id)
+    await Todo.destroy({ where: { UserId, id } })
 
     return res.status(204).send()
   }
