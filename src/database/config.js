@@ -1,4 +1,3 @@
-// require('dotenv').config()
 const { DB } = require('./constants.ts')
 
 const dbConfig = {
