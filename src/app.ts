@@ -6,6 +6,7 @@ import { Sequelize } from 'sequelize'
 import User from './models/userModel'
 import Todo from './models/todoModel'
 import allRoutes from './routes'
+import authenticationMiddleware from './middlewares/authentication'
 
 class App {
   public express: express.Application
@@ -20,6 +21,7 @@ class App {
   private middlewares() {
     this.express.use(express.json())
     this.express.use(cors())
+    this.express.use(authenticationMiddleware)
   }
 
   private database() {
