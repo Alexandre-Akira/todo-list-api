@@ -53,7 +53,7 @@ class UserController {
       expiresIn: '1h'
     })
 
-    return res.status(201).json(new AuthenticationDTO(jwtToken, user))
+    return res.status(200).json(new AuthenticationDTO(jwtToken, user))
   }
 
   static async getUser(req: Express.Request, res: Express.Response) {
