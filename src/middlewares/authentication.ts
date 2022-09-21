@@ -9,6 +9,11 @@ const authenticationMiddleware = (
   next: Express.NextFunction
 ) => {
   const token = req.headers['authorization']
+  const publicRoutes = ['/user', '/user/login']
+
+  if(publicRoutes.includes(req.path)) {
+    return next()
+  }
 
   if (token) {
     try {
@@ -16,8 +21,7 @@ const authenticationMiddleware = (
     } catch (err) {
       return res.status(401).send('Unauthorized')
     }
-    next()
-    return
+    return next()
   }
   return res.status(401).send('Unauthorized')
 }
